@@ -1,0 +1,180 @@
+<div class="tad" data-ng-class="'tad-theme-' + theme">
+    <!-- Filters -->
+    <div class="tad-filters">
+        <div class="tad-filter">
+            <label for="tadDateRange">{{viewWidgetVars.DATE_RANGE}}</label>
+            <div class="cs-select">
+                <select id="tadDateRange" data-ng-model="filters.dateRange" class="form-control"
+                    data-ng-options="value as key for (key, value) in dateRanges"></select>
+                <span class="fa fa-sort-desc"></span>
+            </div>
+        </div>
+        <div class="tad-filter">
+            <label for="tadCountry">{{viewWidgetVars.COUNTRIES}}</label>
+            <div class="cs-select">
+                <select id="tadCountry" data-ng-model="filters.country" class="form-control"
+                    data-ng-options="c as c for c in countryOptions">
+                    <option value="">{{viewWidgetVars.SELECT_AN_OPTION}}</option>
+                </select>
+                <span class="fa fa-sort-desc"></span>
+            </div>
+        </div>
+        <div class="tad-filter">
+            <label for="tadIndustry">{{viewWidgetVars.INDUSTRIES}}</label>
+            <div class="cs-select">
+                <select id="tadIndustry" data-ng-model="filters.industry" class="form-control"
+                    data-ng-options="i as i for i in industryOptions">
+                    <option value="">{{viewWidgetVars.SELECT_AN_OPTION}}</option>
+                </select>
+                <span class="fa fa-sort-desc"></span>
+            </div>
+        </div>
+        <button class="btn btn-primary btn-sm tad-btn" data-ng-click="applyFilters()">{{viewWidgetVars.APPLY_FILTER}}</button>
+        <button class="btn btn-default btn-sm tad-btn" data-ng-if="showClearFilter" data-ng-click="clearFilters()">
+            <span class="icon icon-close"></span>&nbsp;{{viewWidgetVars.CLEAR_FILTER}}
+        </button>
+        <span class="tad-asof tad-muted" data-ng-if="asOf" title="Timestamp of the FortiGuard data">
+            <span class="fa fa-clock-o"></span> FortiGuard data as of {{asOf}} UTC
+        </span>
+        <span class="tad-chip" data-ng-if="filters.country || filters.industry">
+            <span class="fa fa-filter"></span>
+            Cards filtered to {{filters.country}}<span data-ng-if="filters.country && filters.industry"> / </span>{{filters.industry}}
+        </span>
+    </div>
+
+    <!-- Headline numbers -->
+    <div class="tad-kpis">
+        <div class="tad-kpi" data-ng-repeat="k in kpis track by k.key" data-ng-class="'tad-kpi-' + k.key">
+            <div class="tad-kpi-icon"><span class="fa" data-ng-class="k.icon"></span></div>
+            <div class="tad-kpi-body">
+                <div class="tad-kpi-label">{{k.label}}</div>
+                <div class="tad-kpi-value" data-ng-if="!k.text">{{ k.plain ? (k.shown | number:0) : abbreviate(k.shown) }}</div>
+                <div class="tad-kpi-value tad-kpi-text" data-ng-if="k.text" title="{{k.text}}">{{k.text}}</div>
+                <div class="tad-kpi-foot">
+                    <span data-ng-if="k.trend !== null && k.trend !== undefined" class="tad-trend"
+                        data-ng-class="k.trend >= 0 ? 'tad-up' : 'tad-down'">
+                        <span class="fa" data-ng-class="k.trend >= 0 ? 'fa-caret-up' : 'fa-caret-down'"></span>
+                        {{ (k.trend >= 0 ? k.trend : -k.trend) }}%
+                    </span>
+                    <span class="tad-muted">{{k.trendLabel || k.note}}</span>
+                </div>
+                <div class="tad-kpi-sub" data-ng-if="k.sub" title="{{k.sub}}">{{k.sub}}</div>
+            </div>
+            <div class="tad-spark" data-ng-if="k.spark" title="{{k.sparkTitle}}">
+                <svg viewBox="-4 -4 128 40" preserveAspectRatio="none">
+                    <polygon class="tad-spark-area" data-ng-attr-points="{{k.spark.area}}"></polygon>
+                    <polyline class="tad-spark-line" data-ng-attr-points="{{k.spark.line}}"></polyline>
+                    <circle class="tad-spark-dot" r="3" data-ng-attr-cx="{{k.spark.last[0]}}" data-ng-attr-cy="{{k.spark.last[1]}}"></circle>
+                </svg>
+                <div class="tad-spark-axis"><span>21d</span><span>1d</span></div>
+            </div>
+        </div>
+        <cs-spinner data-ng-show="overviewLoading && !kpis.length" class="state-wait"></cs-spinner>
+    </div>
+
+    <!-- Map + cards -->
+    <div class="tad-main">
+        <div class="tad-panel tad-map-panel">
+            <div class="tad-panel-head">
+                <div>
+                    <div class="tad-panel-title">Where attacks land</div>
+                    <div class="tad-muted">Click a country to filter the cards</div>
+                </div>
+                <div class="btn-group btn-group-xs tad-toggle">
+                    <button class="btn" data-ng-class="mapView === 'malware' ? 'btn-primary' : 'btn-default'" data-ng-click="setMapView('malware')">Malware</button>
+                    <button class="btn" data-ng-class="mapView === 'exploit' ? 'btn-primary' : 'btn-default'" data-ng-click="setMapView('exploit')">Exploits</button>
+                </div>
+            </div>
+            <threat-analytics-demo-map class="tad-map-host" data-values="mapValues[mapView]" data-countries="countries"
+                data-base-path="basePath" data-palette="mapView" data-selected="selectedCode"
+                data-on-pick="pickCountry(code)"></threat-analytics-demo-map>
+            <div class="tad-map-top">
+                <button type="button" class="tad-map-top-item" data-ng-repeat="c in mapTop track by c.code"
+                    data-ng-class="{'is-selected': c.code === selectedCode}" data-ng-click="pickCountry(c.code)"
+                    title="Filter the cards to {{c.name}}">
+                    <span class="tad-rank" data-ng-class="'tad-rank-' + ($index + 1)">{{$index + 1}}</span>
+                    <span class="tad-map-top-name">{{c.name}}</span>
+                    <strong>{{abbreviate(c.value)}}</strong>
+                </button>
+            </div>
+        </div>
+
+        <div class="tad-sections">
+            <div class="tad-section" data-ng-repeat="section in [cardDetails.malware, cardDetails.vulnerabilities]">
+                <div class="tad-section-head" data-ng-class="'tad-head-' + section.key">
+                    <span class="fa" data-ng-class="section.key === 'malware' ? 'fa-bug' : 'fa-crosshairs'"></span>
+                    {{section.title}}
+                </div>
+                <div class="tad-section-cards">
+                <div class="tad-card" data-ng-repeat="card in [section.threatCard, section.countriesCard, section.industriesCard]">
+                    <div class="tad-card-title">{{card.title}}</div>
+                    <div class="tad-muted tad-card-sub">{{card.subtitle}}</div>
+                    <cs-spinner data-ng-show="card.loading" class="state-wait"></cs-spinner>
+                    <div class="tad-empty tad-muted" data-ng-if="!card.loading && !card.items.length">No data for this filter</div>
+                    <div class="tad-rows" data-tad-fit-rows="card" data-row-height="38">
+                    <div class="tad-row" data-ng-repeat="item in card.items | limitTo: (card.fit || 5)" data-ng-if="!card.loading"
+                        data-ng-class="{'tad-clickable': item.code || card.kind === 'threat'}"
+                        data-ng-click="item.code ? pickCountry(item.code) : (card.kind === 'threat' && openThreat(item, section))">
+                        <span class="tad-rank" data-ng-class="'tad-rank-' + item.rank">{{item.rank}}</span>
+                        <div class="tad-row-body">
+                            <div class="tad-row-top">
+                                <span class="tad-row-title" title="{{item.title}}">{{item.title}}</span>
+                                <span class="tad-row-value" title="{{item.value | number}}">{{abbreviate(item.value)}}</span>
+                            </div>
+                            <div class="tad-bar">
+                                <i data-ng-style="{width: item.pct + '%'}"
+                                    data-ng-class="card.kind === 'threat' ? 'tad-sev-' + severity(item.title) : 'tad-bar-' + section.key"></i>
+                            </div>
+                        </div>
+                        <span class="tad-share tad-muted">{{shareLabel(item.share)}}</span>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Threat drill-down -->
+    <div class="tad-drawer-backdrop" data-ng-if="drill" data-ng-click="closeThreat()"></div>
+    <div class="tad-drawer" data-ng-if="drill">
+        <div class="tad-drawer-head">
+            <div>
+                <div class="tad-muted">{{drill.section}} &middot; {{drill.category}}</div>
+                <div class="tad-drawer-title">{{drill.item.title}}</div>
+            </div>
+            <button type="button" class="close" data-ng-click="closeThreat()" aria-label="Close">&times;</button>
+        </div>
+        <div class="tad-muted">In the current view ({{drill.scope}}, last {{drill.window}} days)</div>
+        <div class="tad-drawer-stats">
+            <div><div class="tad-muted">Rank</div><strong>#{{drill.item.rank}}</strong></div>
+            <div><div class="tad-muted">Events</div><strong>{{abbreviate(drill.item.value)}}</strong></div>
+            <div><div class="tad-muted">Share of top</div><strong>{{shareLabel(drill.item.share)}}</strong></div>
+            <div><div class="tad-muted">Severity</div><strong class="tad-sev-text" data-ng-class="'tad-sev-text-' + drill.severity">{{drill.severity}}</strong></div>
+        </div>
+        <div class="tad-drawer-section">
+            <div class="tad-card-title">Daily rate by window, worldwide</div>
+            <div class="tad-muted">Rank among the top 50 signatures of its type</div>
+            <cs-spinner data-ng-show="drill.loading" class="state-wait"></cs-spinner>
+            <div class="tad-spark tad-spark-lg" data-ng-if="drill.spark">
+                <svg viewBox="-4 -4 128 40" preserveAspectRatio="none">
+                    <polygon class="tad-spark-area" data-ng-attr-points="{{drill.spark.area}}"></polygon>
+                    <polyline class="tad-spark-line" data-ng-attr-points="{{drill.spark.line}}"></polyline>
+                    <circle class="tad-spark-dot" r="3" data-ng-attr-cx="{{drill.spark.last[0]}}" data-ng-attr-cy="{{drill.spark.last[1]}}"></circle>
+                </svg>
+            </div>
+            <table class="tad-drawer-table" data-ng-if="!drill.loading">
+                <tr><th>Window</th><th>Events</th><th>Per day</th><th>Rank</th></tr>
+                <tr data-ng-repeat="h in drill.history" data-ng-class="{'is-current': h.window === drill.window}">
+                    <td>{{h.window}}d</td>
+                    <td>{{h.count !== null ? abbreviate(h.count) : 'not in top 50'}}</td>
+                    <td>{{h.perDay !== null ? abbreviate(h.perDay) : '-'}}</td>
+                    <td>{{h.rank ? '#' + h.rank : '-'}}</td>
+                </tr>
+            </table>
+        </div>
+        <a class="btn btn-primary btn-sm tad-drawer-link" data-ng-href="{{drill.url}}" target="_blank" rel="noopener noreferrer">
+            <span class="fa fa-external-link"></span>&nbsp;Open in FortiGuard Encyclopedia
+        </a>
+    </div>
+</div>

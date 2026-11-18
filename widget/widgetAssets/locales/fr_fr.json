@@ -1,0 +1,15 @@
+{
+    "cardView": {
+        "APPLY_FILTER": "Appliquer le filtre",
+        "BTN_OK": "OK",
+        "CLEAR_FILTER": "Effacer le filtre",
+        "COUNTRIES": "Pays",
+        "DATE_RANGE": "Plage de dates",
+        "HEADER_EDIT_THREAT_ANALYTICS": "Modifier l’analyse des menaces",
+        "INDUSTRIES": "Secteurs",
+        "INTERVALS": "Intervalles",
+        "LABEL_NOT_CONFIGURABLE": "Ce widget est fourni en package et ne peut pas être utilisé séparément",
+        "NUMBER_OF_RECORDS": "Nombre d’enregistrements",
+        "SELECT_AN_OPTION": "Sélectionner une option"
+    }
+}

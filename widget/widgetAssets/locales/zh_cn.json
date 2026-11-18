@@ -1,0 +1,15 @@
+{
+    "cardView": {
+        "APPLY_FILTER": "应用筛选",
+        "BTN_OK": "确定",
+        "CLEAR_FILTER": "清除筛选",
+        "COUNTRIES": "国家",
+        "DATE_RANGE": "日期范围",
+        "HEADER_EDIT_THREAT_ANALYTICS": "编辑威胁分析",
+        "INDUSTRIES": "行业",
+        "INTERVALS": "间隔",
+        "LABEL_NOT_CONFIGURABLE": "此小组件为捆绑组件，无法单独使用",
+        "NUMBER_OF_RECORDS": "记录数",
+        "SELECT_AN_OPTION": "选择一个选项"
+    }
+}

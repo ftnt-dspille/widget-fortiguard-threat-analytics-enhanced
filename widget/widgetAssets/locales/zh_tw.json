@@ -1,0 +1,15 @@
+{
+    "cardView": {
+        "APPLY_FILTER": "套用篩選",
+        "BTN_OK": "確定",
+        "CLEAR_FILTER": "清除篩選",
+        "COUNTRIES": "國家",
+        "DATE_RANGE": "日期範圍",
+        "HEADER_EDIT_THREAT_ANALYTICS": "編輯威脅分析",
+        "INDUSTRIES": "產業",
+        "INTERVALS": "間隔",
+        "LABEL_NOT_CONFIGURABLE": "此小工具為封裝元件，無法單獨使用",
+        "NUMBER_OF_RECORDS": "記錄數",
+        "SELECT_AN_OPTION": "選擇一個選項"
+    }
+}

@@ -1,0 +1,15 @@
+{
+    "cardView": {
+        "APPLY_FILTER": "필터 적용",
+        "BTN_OK": "확인",
+        "CLEAR_FILTER": "필터 지우기",
+        "COUNTRIES": "국가",
+        "DATE_RANGE": "날짜 범위",
+        "HEADER_EDIT_THREAT_ANALYTICS": "위협 분석 편집",
+        "INDUSTRIES": "산업",
+        "INTERVALS": "간격",
+        "LABEL_NOT_CONFIGURABLE": "이 위젯은 번들로 제공되며 단독으로 사용할 수 없습니다",
+        "NUMBER_OF_RECORDS": "레코드 수",
+        "SELECT_AN_OPTION": "옵션 선택"
+    }
+}

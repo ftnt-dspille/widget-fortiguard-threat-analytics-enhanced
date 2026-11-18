@@ -1,0 +1,15 @@
+{
+    "threatAnalytics": {
+        "APPLY_FILTER": "Apply Filter",
+        "BTN_OK": "OK",
+        "CLEAR_FILTER": "Clear Filter",
+        "COUNTRIES": "Countries",
+        "DATE_RANGE": "Date Range",
+        "HEADER_EDIT_THREAT_ANALYTICS": "Edit Threat Analytics",
+        "INDUSTRIES": "Industries",
+        "INTERVALS": "Intervals",
+        "LABEL_NOT_CONFIGURABLE": "This widget is bundled and not available for standalone use",
+        "NUMBER_OF_RECORDS": "Number of Records",
+        "SELECT_AN_OPTION": "Select an Option"
+    }
+}

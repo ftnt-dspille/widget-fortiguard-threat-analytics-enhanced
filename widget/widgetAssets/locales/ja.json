@@ -1,0 +1,15 @@
+{
+    "cardView": {
+        "APPLY_FILTER": "フィルターを適用",
+        "BTN_OK": "OK",
+        "CLEAR_FILTER": "フィルターをクリア",
+        "COUNTRIES": "国",
+        "DATE_RANGE": "日付範囲",
+        "HEADER_EDIT_THREAT_ANALYTICS": "脅威分析を編集",
+        "INDUSTRIES": "業界",
+        "INTERVALS": "間隔",
+        "LABEL_NOT_CONFIGURABLE": "このウィジェットはバンドルされており、単独では使用できません",
+        "NUMBER_OF_RECORDS": "レコード数",
+        "SELECT_AN_OPTION": "オプションを選択"
+    }
+}
