@@ -29,8 +29,15 @@
     }
 
     function execute(operation, params) {
-      return _meta().then(function (m) {
+      function call(m) {
         return connectorService.executeConnectorAction(CONNECTOR, m.version, operation, m.configId, params);
+      }
+      // One fresh-meta retry: a connector re-import mid-session or a few
+      // seconds of FortiGuard cloud trouble must not blank cards until the
+      // analyst reloads the page. The retry also absorbs transient 5xx/400s.
+      return _meta().then(call).catch(function () {
+        connectorMeta = null;
+        return _meta().then(call);
       });
     }
 

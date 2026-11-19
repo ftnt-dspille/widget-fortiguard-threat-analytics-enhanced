@@ -99,7 +99,7 @@
 
     // ------------------------------------------------------------ cards
     function createCard(title, subtitle, kind) {
-      return { title: title, subtitle: subtitle, kind: kind, items: [], loading: false };
+      return { title: title, subtitle: subtitle, kind: kind, items: [], loading: false, error: false };
     }
 
     function createSection(title, key) {
@@ -141,14 +141,21 @@
 
     function loadCard(action, params, card, labelKey) {
       card.loading = true;
+      card.error = false;
       // Ask for extra rows so placeholder industries can be dropped and still fill the card.
       var want = 10;
       var p = angular.extend({}, params, { max_records: labelKey === 'Industry' || labelKey === 'Country' ? want + 3 : want });
+      card.retry = function () { loadCard(action, params, card, labelKey); };
       return svc.execute(action, p).then(function (res) {
         noteAsOf(res);
+        card.error = false;
         card.items = toItems(svc.stats(res), labelKey).slice(0, want);
       }).catch(function (err) {
-        console.error('threat analytics demo: card', action, err);
+        // A failed request is not "no data": show the retry state, never the
+        // empty-filter message (a transient FortiGuard blip once blanked every
+        // card with "No data for this filter").
+        console.error('[fortiGuardThreatAnalyticsDemo] card request failed:', action, err);
+        card.error = true;
         card.items = [];
       }).finally(function () {
         card.loading = false;
@@ -418,6 +425,9 @@
       });
       svc.execute('get_industry_list', {}).then(function (res) {
         $scope.industryOptions = ((res && res.data) || []).filter(function (i) { return !JUNK_LABELS.test(String(i)); });
+      }).catch(function (err) {
+        console.error('[fortiGuardThreatAnalyticsDemo] industry list request failed:', err);
+        $scope.industryOptions = [];
       });
       return $http.get(widgetBasePath + 'widgetAssets/lib/iso2_countries.json').then(function (res) {
         $scope.countries = res.data;

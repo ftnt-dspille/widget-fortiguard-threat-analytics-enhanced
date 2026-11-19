@@ -106,11 +106,12 @@
                     {{section.title}}
                 </div>
                 <div class="tad-section-cards">
-                <div class="tad-card" data-ng-repeat="card in [section.threatCard, section.countriesCard, section.industriesCard]">
+                <div class="tad-card" data-testid="tad-card" data-ng-repeat="card in [section.threatCard, section.countriesCard, section.industriesCard]">
                     <div class="tad-card-title">{{card.title}}</div>
                     <div class="tad-muted tad-card-sub">{{card.subtitle}}</div>
                     <cs-spinner data-ng-show="card.loading" class="state-wait"></cs-spinner>
-                    <div class="tad-empty tad-muted" data-ng-if="!card.loading && !card.items.length">No data for this filter</div>
+                    <div class="tad-empty tad-muted" data-testid="tad-card-error" data-ng-if="!card.loading && card.error">Couldn't reach FortiGuard. <a href="" data-testid="tad-card-retry" data-ng-click="card.retry()">Retry</a></div>
+                    <div class="tad-empty tad-muted" data-testid="tad-card-empty" data-ng-if="!card.loading && !card.error && !card.items.length">No data for this filter</div>
                     <div class="tad-rows" data-tad-fit-rows="card" data-row-height="38">
                     <div class="tad-row" data-ng-repeat="item in card.items | limitTo: (card.fit || 5)" data-ng-if="!card.loading"
                         data-ng-class="{'tad-clickable': item.code || card.kind === 'threat'}"
