@@ -10,12 +10,12 @@
 (function () {
   angular
     .module('cybersponse')
-    .controller('fortiGuardThreatAnalyticsDemo100DevCtrl', fortiGuardThreatAnalyticsDemo100DevCtrl);
+    .controller('fortiGuardThreatAnalyticsDemo101DevCtrl', fortiGuardThreatAnalyticsDemo101DevCtrl);
 
-  fortiGuardThreatAnalyticsDemo100DevCtrl.$inject = ['$scope', '$rootScope', '$q', '$http', '$interval', 'config',
+  fortiGuardThreatAnalyticsDemo101DevCtrl.$inject = ['$scope', '$rootScope', '$q', '$http', '$interval', 'config',
     'widgetBasePath', 'threatAnalyticsDemoService', 'threatAnalyticsDemoUtilityService'];
 
-  function fortiGuardThreatAnalyticsDemo100DevCtrl($scope, $rootScope, $q, $http, $interval, config,
+  function fortiGuardThreatAnalyticsDemo101DevCtrl($scope, $rootScope, $q, $http, $interval, config,
     widgetBasePath, svc, utility) {
     // The feed only answers these windows (others fail), and totals do not
     // scale with the window, so trends compare daily rates, never sums.

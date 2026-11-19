@@ -16,7 +16,7 @@ angular.module("cybersponse", []); // eslint-disable-line no-undef
 require("../widget/widgetAssets/js/threatAnalyticsDemo.service.js");
 require("../widget/view.controller.js");
 
-const CTRL_NAME = "fortiGuardThreatAnalyticsDemo100DevCtrl";
+const CTRL_NAME = "fortiGuardThreatAnalyticsDemo101DevCtrl";
 const ngModule = window.angular.mock.module; // eslint-disable-line no-undef
 const ngInject = window.angular.mock.inject; // eslint-disable-line no-undef
 

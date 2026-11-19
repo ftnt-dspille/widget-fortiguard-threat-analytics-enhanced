@@ -2,7 +2,7 @@
   "name": "fortiGuardThreatAnalyticsDemo",
   "title": "FortiGuard Threat Analytics (Enhanced)",
   "subTitle": "FortiGuard threat analytics with a country heat map and headline numbers",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "published_date": 1778025600,
   "releaseNotes": "Fork of FortiGuard Threat Analytics 1.0.0: headline numbers vs the 21-day daily average, a country heat map that filters the cards on click, self-drawn ranked cards (no utilities widget needed).",
   "metadata": {

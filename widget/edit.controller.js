@@ -7,11 +7,11 @@
 (function () {
     angular
         .module('cybersponse')
-        .controller('editFortiGuardThreatAnalyticsDemo100DevCtrl', editFortiGuardThreatAnalyticsDemo100DevCtrl);
+        .controller('editFortiGuardThreatAnalyticsDemo101DevCtrl', editFortiGuardThreatAnalyticsDemo101DevCtrl);
 
-    editFortiGuardThreatAnalyticsDemo100DevCtrl.$inject = ['$scope', '$uibModalInstance', 'config', 'threatAnalyticsDemoUtilityService', '$timeout'];
+    editFortiGuardThreatAnalyticsDemo101DevCtrl.$inject = ['$scope', '$uibModalInstance', 'config', 'threatAnalyticsDemoUtilityService', '$timeout'];
 
-    function editFortiGuardThreatAnalyticsDemo100DevCtrl($scope, $uibModalInstance, config, threatAnalyticsDemoUtilityService, $timeout) {
+    function editFortiGuardThreatAnalyticsDemo101DevCtrl($scope, $uibModalInstance, config, threatAnalyticsDemoUtilityService, $timeout) {
         $scope.cancel = cancel;
         $scope.save = save;
         $scope.SORT_ORDER = [{
